@@ -3,7 +3,7 @@
 // @namespace    https://github.com/AlekPet/
 // @version      0.1
 // @description  Grab radio stream from 101.ru
-// @copyright 2018, AlekPet (https://github.com/AlekPet)
+// @copyright    2018, AlekPet (https://github.com/AlekPet)
 // @author       AlekPet
 // @license      MIT; https://opensource.org/licenses/MIT
 // @match        http://101.ru/*
