@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  Grab radio stream from 101.ru
 // @author       AlekPet
-// @license      MIT; https://opensource.org/licenses/MIT
+// @license      https://opensource.org/licenses/MIT
 // @match        http://101.ru/*
 // @updateURL    https://raw.githubusercontent.com/AlekPet/Grab-Radio-101.ru/master/Grab-Radio-101.ru.js
 // @downloadURL  https://raw.githubusercontent.com/AlekPet/Grab-Radio-101.ru/master/Grab-Radio-101.ru.js
