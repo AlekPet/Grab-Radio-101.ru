@@ -7,8 +7,8 @@
 // @author       AlekPet
 // @license      MIT; https://opensource.org/licenses/MIT
 // @match        http://101.ru/*
-// @updateURL    https://raw.githubusercontent.com/AlekPet/Grab-Radio-101.ru/master/Grab-Radio-101.ru.js
-// @downloadURL  https://raw.githubusercontent.com/AlekPet/Grab-Radio-101.ru/master/Grab-Radio-101.ru.js
+// @updateURL   https://github.com/AlekPet/Grab-Radio-101.ru/raw/master/Grab-Radio-101.ru.user.js
+// @downloadURL  https://github.com/AlekPet/Grab-Radio-101.ru/raw/master/Grab-Radio-101.ru.user.js
 // @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEIElEQVRIS+1Vf0zUZRj/PMcdx4FgtWzi8Ec6RNwqlxJII6RftmNm4VotQREtWJZpDDA2Gg3Eu7A1clISP7MthjJhTijdWrr+yLA1QR1Xo4aMtuAQwfR7P7h72vNl73Xc2fyr/urd3n2/977v9/k8n+f5fN4jZmb8i4P+B7hbdf+bErnOX+CBzD0UW1rEq+w7SJu4zY3Wk7iB+Xi7ZyOGrriQk3mdtpbGc7U9ku6WdfB+gIGz5RQ7Byewyp5PAy19rLEZboqGxpF4tmAJdTTf5H5HFKpsRiIiiPiCn/8EGgLghDA4V9bDCdaHMDqk4VeHH9sOrqQTrbf40mAkhIEKXlY7yJevjQLmKTycHMX208cNpS9v4A++qadzZYf5iRWpFMYgybadzu/v5UXPrcbokBtDDh/ybUl0vOVPnUHlASKDwaAz+O7HG5z//rforc/C0oWxeO2TVuQ++Si+uNiN1zOzsSFxfSiAE0m2fLrUdIE1jsJtvwkuWJCVt5BOHnNxv8OM96qg90DKIwBNpxxoqEiF0RiBXfXNyHtqHY71daEoaxMylj82CzDb5LdoHA9gRWMJx2evQcumblzne7CrIx3DjhnkWV36/sHDHjaYPfh5eBoUdQt1nT/R2aMZnPFIAlW0d3PtmTZCzDiKrZu5xlryNwPJSmjLnJmZgcfj0ae6SdS6lEeGKpPRaITJZNKnDL/fD5/PF4gV5gPZlOl2u+H1enUwKYd8KCCyJ0FlTanIYrHogPJbvpOzMvUzwXdRKAM5LAEVOwUiwSIiInRAeVcs5GxwUrraQi87xcDlcumH5bcEUUACIuUILp3ZbA7YQMqqGIcx8Din+Gz2x7j6w029oZa1iVzQvh6x982aS4EpFQnY5LSXX6n6GtWFa5GevIRUeVSP5jAYLGvlP65pSPtsB2AikoDDV6e5psiJ+DX3g+LisDTRh93lE4ToMezbbeE9efF4qbIHF0cu6+rZ+2IaV2/J1c2o90WVyK+5uX9nHWKeTkPk8kU4ktVF81KS+IVDqVye+zttrViGnG2WgAc+PzHJDZ2/oM2+mrfbTpP9zTT44ca7nY3o2luOBXH3zjo+uAfCYGzEhfSmnfjt+1G077+C52tT+MPicSppWIzFD5pR+IYPHb1j9MxGjadmJtFcs5ILar+iA4XrEL9gHoq//BRtRfswPyqGRAhzALwT03zGWhfogTDYbE/hQyVOKjmagGWJBqqsMvJHjWN6OVJS3dxqS+Z8ew/1jQwQosfxzpbHuSrnVZ3pHVWk1CH1Fw+IVOUpUzKSoVQk8pSmKpUpIcgZ+T5MRUpryo0iOZFrsKMlmDKVBBBQpZxgzyhPhfkg1Gyaps0xjyQhmctQjORdklBXhawrsDv+ZSoGUh41g10smSsm8lQllKdaV4n+BTVI+QRe6RsxAAAAAElFTkSuQmCC
 // @run-at document-end
 // @grant GM_setValue
