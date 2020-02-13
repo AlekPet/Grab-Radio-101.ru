@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name         Grab Radio 101.ru
 // @namespace    https://github.com/AlekPet/
-// @version      0.2
+// @version      0.3
 // @description  Grab radio stream from 101.ru
 // @copyright    2018, AlekPet (https://github.com/AlekPet)
 // @author       AlekPet
 // @license      MIT; https://opensource.org/licenses/MIT
-// @match        http://101.ru/*
+// @match        http*://101.ru/*
 // @updateURL    https://raw.githubusercontent.com/AlekPet/Grab-Radio-101.ru/master/Grab-Radio-101.ru.user.js
 // @downloadURL  https://raw.githubusercontent.com/AlekPet/Grab-Radio-101.ru/master/Grab-Radio-101.ru.user.js
 // @icon         data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEIElEQVRIS+1Vf0zUZRj/PMcdx4FgtWzi8Ec6RNwqlxJII6RftmNm4VotQREtWJZpDDA2Gg3Eu7A1clISP7MthjJhTijdWrr+yLA1QR1Xo4aMtuAQwfR7P7h72vNl73Xc2fyr/urd3n2/977v9/k8n+f5fN4jZmb8i4P+B7hbdf+bErnOX+CBzD0UW1rEq+w7SJu4zY3Wk7iB+Xi7ZyOGrriQk3mdtpbGc7U9ku6WdfB+gIGz5RQ7Byewyp5PAy19rLEZboqGxpF4tmAJdTTf5H5HFKpsRiIiiPiCn/8EGgLghDA4V9bDCdaHMDqk4VeHH9sOrqQTrbf40mAkhIEKXlY7yJevjQLmKTycHMX208cNpS9v4A++qadzZYf5iRWpFMYgybadzu/v5UXPrcbokBtDDh/ybUl0vOVPnUHlASKDwaAz+O7HG5z//rforc/C0oWxeO2TVuQ++Si+uNiN1zOzsSFxfSiAE0m2fLrUdIE1jsJtvwkuWJCVt5BOHnNxv8OM96qg90DKIwBNpxxoqEiF0RiBXfXNyHtqHY71daEoaxMylj82CzDb5LdoHA9gRWMJx2evQcumblzne7CrIx3DjhnkWV36/sHDHjaYPfh5eBoUdQt1nT/R2aMZnPFIAlW0d3PtmTZCzDiKrZu5xlryNwPJSmjLnJmZgcfj0ae6SdS6lEeGKpPRaITJZNKnDL/fD5/PF4gV5gPZlOl2u+H1enUwKYd8KCCyJ0FlTanIYrHogPJbvpOzMvUzwXdRKAM5LAEVOwUiwSIiInRAeVcs5GxwUrraQi87xcDlcumH5bcEUUACIuUILp3ZbA7YQMqqGIcx8Din+Gz2x7j6w029oZa1iVzQvh6x982aS4EpFQnY5LSXX6n6GtWFa5GevIRUeVSP5jAYLGvlP65pSPtsB2AikoDDV6e5psiJ+DX3g+LisDTRh93lE4ToMezbbeE9efF4qbIHF0cu6+rZ+2IaV2/J1c2o90WVyK+5uX9nHWKeTkPk8kU4ktVF81KS+IVDqVye+zttrViGnG2WgAc+PzHJDZ2/oM2+mrfbTpP9zTT44ca7nY3o2luOBXH3zjo+uAfCYGzEhfSmnfjt+1G077+C52tT+MPicSppWIzFD5pR+IYPHb1j9MxGjadmJtFcs5ILar+iA4XrEL9gHoq//BRtRfswPyqGRAhzALwT03zGWhfogTDYbE/hQyVOKjmagGWJBqqsMvJHjWN6OVJS3dxqS+Z8ew/1jQwQosfxzpbHuSrnVZ3pHVWk1CH1Fw+IVOUpUzKSoVQk8pSmKpUpIcgZ+T5MRUpryo0iOZFrsKMlmDKVBBBQpZxgzyhPhfkg1Gyaps0xjyQhmctQjORdklBXhawrsDv+ZSoGUh41g10smSsm8lQllKdaV4n+BTVI+QRe6RsxAAAAAElFTkSuQmCC
@@ -26,7 +26,7 @@ margin-left: -300px;
 width: 600px;
 background: silver;
 border: 1px solid silver;
-z-index: 1;
+z-index: 9999;
 box-shadow: 4px 4px 8px silver;
 }
 #names {
@@ -191,11 +191,14 @@ cursor: pointer;
 
     function getListGenres(data){
         let html = data,
-            output ={};
-        $(html).find(".full.list.caps.menu.h4.dotted li").each(function(index, el){
-            if(index != 0) {
-                let name = $(this).find("a").text(),
-                    link = 'http://101.ru'+$(this).find("a").attr("href")
+            output ={},
+            liEl = $(html).find("div.content__main > ul li"),
+            liElLenght = liEl.length
+
+        liEl.each(function(index, el){
+            if(index != liElLenght-1) {
+                let name = $(this).find("a").text().trim(),
+                    link = '//101.ru'+$(this).find("a").attr("href")
                 output[name]=({name: name, link: link})
             }
         })
@@ -209,10 +212,10 @@ cursor: pointer;
             if(!data[x].hasOwnProperty("radio")) data[x].radio = [];
             if(!data[x].hasOwnProperty("clear")) data[x].clear = [];
 
-            $(html).find(".list-channels li").each(function(index,el){
-                let name = $(this).find(".h3.caps.htitle").text(),
-                    href = $(this).find("a").attr("href"),
-                    image = $(this).find(".cover.logo img").attr("src"),
+            $(html).find(".content__main > div.grid.grid_size_m > li").each(function(index,el){
+                let name = $(this).find("a.grid__title > span").text(),
+                    href = $(this).find("a.grid__title").attr("href"),
+                    image = $(this).find("link").attr("href"),
 
                     json = getJson(href.slice(href.lastIndexOf("/")+1,href.length), true);
 
@@ -238,7 +241,7 @@ cursor: pointer;
     }
 
     function getJson(id, bo){
-        let urls = bo ? "http://101.ru/api/channel/getServers/"+id+"/channel/AAC/64/?dataFormat=html5" : "http://101.ru/api/channel/getServers/"+id+"/channel/MP3/128/",
+        let urls = bo ? "//101.ru/api/channel/getServers/"+id+"/channel/AAC/64/?dataFormat=html5" : "//101.ru/api/channel/getServers/"+id+"/channel/MP3/128/",
             otvet = ajax(urls)
         if(otvet.includes("Канал не поддерживает формат AAC")){
             otvet = getJson(id, false);
@@ -377,7 +380,7 @@ cursor: pointer;
             let radio = genre.radio[i]
 
             text += '<li><a href="'+radio.link+'" class="noajax" data-tooltip-block="#topchan82">'+
-                '<div class="cover logo" style="background-color: #eeeeee"><img src="'+radio.image+'" alt="'+radio.name+'"></div>'+
+                '<div class="cover logo" style="background-color: #eeeeee"><img src="'+radio.image+'" alt="'+radio.name+'" width="440px"></div>'+
                 '<div class="h3 caps htitle">'+radio.name+'</div>'+
                 '</a>';
 
@@ -507,7 +510,7 @@ cursor: pointer;
 
     function init(){
         let interval = null,listGanres,listRadios,makePanelObject
-        listGanres = getListGenres(ajax("http://101.ru/radio-top"))
+        listGanres = getListGenres(ajax("//101.ru/radio-top"))
 
         if(OBJLengthEmpty(listGanres)){
             throw Error("Список жанров пуст!")
