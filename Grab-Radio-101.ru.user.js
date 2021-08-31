@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Grab Radio 101.ru
 // @namespace    https://github.com/AlekPet/
-// @version      0.3
+// @version      0.3.1
 // @description  Grab radio stream from 101.ru
 // @copyright    2018, AlekPet (https://github.com/AlekPet)
 // @author       AlekPet
@@ -222,6 +222,7 @@ cursor: pointer;
                 let linksR = [];
                 if(!json.includes("Канал не найден")){
                     let jsonP = JSON.parse(json);
+                    jsonP = jsonP.result
                     for(let s = 0; s < jsonP.playlist.length; s++){
                         let file = jsonP.playlist[s].file,
                             cut = file.slice(0, file.lastIndexOf("?"));
