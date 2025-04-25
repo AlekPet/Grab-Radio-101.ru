@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Grab Radio 101.ru
 // @namespace    https://github.com/AlekPet/
-// @version      0.3.1
+// @version      0.3.2
 // @description  Grab radio stream from 101.ru
 // @copyright    2018, AlekPet (https://github.com/AlekPet)
 // @author       AlekPet
@@ -28,6 +28,7 @@ background: silver;
 border: 1px solid silver;
 z-index: 9999;
 box-shadow: 4px 4px 8px silver;
+z-index: 99999;
 }
 #names {
 background: white;
@@ -327,15 +328,19 @@ cursor: pointer;
                 $(this).addClass("selactive")
                 $("#outputs").empty();
 
-                let outuptCode = "",
-                    counts = 0
+                let counts = 0
+                const r_obj = {radio_list:{}}
+
                 for(let o in obj){
-                    let genre = obj[o]
+                    const genre = obj[o]
+
                     counts+= genre.radio.length
                     $("#outputs").append($("<div class='main_title_small'>").text(o))
-                    outuptCode = loadRadioSelected(genre, outuptCode)
+                    const outuptCode = loadRadioSelected(genre)
+                    r_obj.radio_list[genre.name] = outuptCode
                 }
-                $("#texta").val(outuptCode)
+
+                $("#texta").val(JSON.stringify(r_obj))
                 $("body").find(".textarea_info > span").text(`Количество радиостанций: ${counts} (Все)`)
             })
 
@@ -349,9 +354,8 @@ cursor: pointer;
                     $(this).addClass("selactive")
                     $("#outputs").empty();
 
-                    let outuptCode = ""
-                    outuptCode = loadRadioSelected(genre, outuptCode)
-                    $("#texta").val(outuptCode)
+                    const outuptCode = loadRadioSelected(genre)
+                    $("#texta").val(JSON.stringify({radio_list:{[genre.name]:outuptCode}}))
                     $("body").find(".textarea_info > span").text(`Количество радиостанций: ${genre.radio.length} (${o})`)
                 })
 
@@ -364,47 +368,38 @@ cursor: pointer;
         $(ul_menu).find("li:eq(1)").addClass("selactive")
         $("#outputs").empty();
 
-        let outuptCode = ""
-        outuptCode = loadRadioSelected(obj["Лучшие станции"], outuptCode)
-        $("#texta").val(outuptCode)
-        $("body").find(".textarea_info > span").text(`Количество радиостанций: ${obj["Лучшие станции"].radio.length} (Лучшие станции)`)
+        const outuptCode = loadRadioSelected(obj["Топ каналов"])
+        $("#texta").val(JSON.stringify({radio_list:{"Топ каналов":outuptCode}}))
+        $("body").find(".textarea_info > span").text(`Количество радиостанций: ${obj["Топ каналов"].radio.length} (Топ каналов)`)
 
     }
 
-    function loadRadioSelected(genre, outuptCode){
-        let ul = $("<ul>"),
-            text = ""
+    function loadRadioSelected(genre){
+        const ul = $("<ul>")
 
-        for(let i=0;i<genre.radio.length;i++){
-            outuptCode += '{\n'
+        let text = ""
 
-            let radio = genre.radio[i]
+        const r_obj = genre.radio.map(({name, image, canvasik, json, link})=>{
+            text += '<li><a href="'+link+'" class="noajax" data-tooltip-block="#topchan82">'+
+                    '<div class="cover logo" style="background-color: #eeeeee"><img src="'+image+'" alt="'+name+'" width="440px"></div>'+
+                    '<div class="h3 caps htitle">'+name+'</div>'+
+                    '</a>';
 
-            text += '<li><a href="'+radio.link+'" class="noajax" data-tooltip-block="#topchan82">'+
-                '<div class="cover logo" style="background-color: #eeeeee"><img src="'+radio.image+'" alt="'+radio.name+'" width="440px"></div>'+
-                '<div class="h3 caps htitle">'+radio.name+'</div>'+
-                '</a>';
+            const data_radio = {title:name, poster: image, mp3: json.map((url)=>{
+                text +='<div>'+url+'</div><audio controls preload="none"><source src="'+url+'" type="audio/mpeg"></source></audio>'
+                return url
+            })}
 
-            outuptCode += '"title":"'+radio.name+'",\n"artist":"'+genre.name+' - 101.ru",\n"poster":"'+radio.image+'",\n'
+            if(canavas_img) data_radio.canvas = canvasik;
+            return data_radio
+        })
 
-            if(canavas_img) outuptCode += '"canvas":"'+radio.canvasik+'",\n'
 
-            for(let s = 0 ; s<radio.json.length;s++){
-                text +='<div>'+radio.json[s]+'</div><audio controls preload="none"><source src="'+radio.json[s]+'" type="audio/mpeg"></source></audio>';
-                outuptCode += '"mp3":"'+radio.json[s]+'"'
-                if(s < radio.json.length-1) outuptCode += ',\n'
-            }
-            outuptCode += '\n}'
-
-            if(i<genre.radio.length-1)outuptCode +=',\n'
-
-            text +='</li>';
-        }
 
         $(ul).html(text)
         $("#outputs").append(ul)
 
-        return outuptCode
+        return r_obj
     }
 
     function returnCanvas(params){
@@ -572,9 +567,9 @@ cursor: pointer;
         if(confirm("Загрузить сохраненные радио, с прошлого раза?")){
             if(confirm("Внимание:\nДобавить canvas в коды?\n")){
             if(RadioObj.hasOwnProperty("allRadio") &&
-               RadioObj.allRadio.hasOwnProperty("Лучшие станции") &&
-               RadioObj.allRadio["Лучшие станции"].hasOwnProperty("radio") &&
-               RadioObj.allRadio["Лучшие станции"].radio[0].hasOwnProperty("canvasik")){
+               RadioObj.allRadio.hasOwnProperty("Топ каналов") &&
+               RadioObj.allRadio["Топ каналов"].hasOwnProperty("radio") &&
+               RadioObj.allRadio["Топ каналов"].radio[0].hasOwnProperty("canvasik")){
                 canavas_img = true
             } else {
                 alert("Внимание:\nПоле с изображением в canvas не найдено!\nЗагрузка не возможна, начните грабить заново с canvas'ом!")
